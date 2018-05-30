@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack-dev-server"
+    "build": "cross evn NODE_ENV=development webpack",
+    "dev": "cross evn NODE_ENV=production webpack-dev-server"
   },
   "keywords": [],
   "author": "",

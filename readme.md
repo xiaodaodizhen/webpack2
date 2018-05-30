@@ -43,3 +43,35 @@ npm install webpack webpack-cli -D   (开发用)
 - npm install postcss-loader autoprefixer -D   给css加前缀，达到各个浏览器内核兼容
 
 - npm install purifycss-webpack purify-css glob -D    glob 插件是为了全局搜索   purifycss-webpack 删除多余未用的css less样式，依赖于purify-css插件
+
+
+## 将所有的css样式抽离到index.css 文件中，
+- 问题：如果使用了css抽离功能，css-loader内置的热更新功能将会失效
+- 原因：是css抽离之后进入到了html中
+- 解决方案：开发的时候不进行css样式抽离，打包上线的时候在进行抽离。 
+   - 1. 安装环境变量插件  npm install cross-evn -D
+   - 2. 在package.json 文件中配置
+        ```
+        "scripts": {
+            "build": "cross evn NODE_ENV=development webpack",
+            "dev": "cross evn NODE_ENV=production webpack-dev-server"
+        },
+
+        ```
+        cross evn NODE_ENV=development (设置环境变量) webpack(执行命令)
+
+## 在前端js代码中区分开发环境和生产环境
+- webpack 自带此功能
+    ```
+        new webpack.DefinePlugin({
+        _DEV_: isDev
+        })
+        
+    ```
+
+## webpack 中处理图片的问题（在项目中处理图片的方式）
+- 1. 直接通过路径引用
+- 2. 在js中引用图片
+- 3. 在背景图中引用
+
+  - 方案： npm install file-loader url-loader -D
