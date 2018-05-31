@@ -49,16 +49,16 @@ npm install webpack webpack-cli -D   (开发用)
 - 问题：如果使用了css抽离功能，css-loader内置的热更新功能将会失效
 - 原因：是css抽离之后进入到了html中
 - 解决方案：开发的时候不进行css样式抽离，打包上线的时候在进行抽离。 
-   - 1. 安装环境变量插件  npm install cross-evn -D
+   - 1. 安装环境变量插件  npm install cross-env -D
    - 2. 在package.json 文件中配置
         ```
         "scripts": {
-            "build": "cross evn NODE_ENV=development webpack",
-            "dev": "cross evn NODE_ENV=production webpack-dev-server"
+            "build": "cross-env NODE_ENV=development webpack",
+            "dev": "cross-env NODE_ENV=production webpack-dev-server"
         },
 
         ```
-        cross evn NODE_ENV=development (设置环境变量) webpack(执行命令)
+        cross-env NODE_ENV=development (设置环境变量) webpack(执行命令)
 
 ## 在前端js代码中区分开发环境和生产环境
 - webpack 自带此功能
@@ -74,4 +74,6 @@ npm install webpack webpack-cli -D   (开发用)
 - 2. 在js中引用图片
 - 3. 在背景图中引用
 
-  - 方案： npm install file-loader url-loader -D
+  - 方案： npm install file-loader url-loader -D   // 解决js 中的图片引用，打包后图片引用---看js文件备注
+
+          npm install html-withimg-loader -D    // 解决html中的图片引用，打包后图片引用   打包前: <img src="./1.jpg">   打包后: src="images/9568043d528780847a30ba5d2d33948b.jpg"

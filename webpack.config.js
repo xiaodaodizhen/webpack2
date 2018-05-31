@@ -16,12 +16,26 @@ module.exports = {
     rules: [
       // { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       // { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] }
-
       {
-        test: /\.css$/, use: new ExtractTextWebpackPlugin.extract({
+        test: /\.(png|jpg|gif)$/, use: [
+          {
+            loader: 'url-loader',
+            options: { // 本配置，通过npm run build 看的清楚，因为npm run dev 是打包到内存中的，只有在浏览器能看到，
+              limit: 5, // base64，不是一个真正的可以浏览的图片文件，是打包为base64形式的东西。 如果长度超过5字节，就会调用file-loader,让他打包为一个真正的图片文件
+              outputPath: 'images/'  // 给打包成功的图片文件 配置打包后的存放路径，dist/images/，如果不配置，默认进入文件的output 设置的目录，本案例是 dist文件
+            }
+          }
+        ]
+      },
+      {
+        test: /\.html$/, use: ["html-withimg-loader"]  // 解决html 引用文件打包后的文件引用
+      }
+      ,
+      {
+        test: /\.css$/, use: ExtractTextWebpackPlugin.extract({
           fallback: 'style-loader',// 如果css抽离功能暂时不生效，就使用fallback，生效了就可以不执行fallback
           use: [{
-            loader: 'css-loder'
+            loader: 'css-loader',
           }
           ]
         })
