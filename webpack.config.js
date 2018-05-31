@@ -2,6 +2,7 @@ let path = require('path');
 let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+let CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // 通过环境变量判断执行环境
 let isDev = process.env.NODE_ENV === 'development';
@@ -16,6 +17,23 @@ module.exports = {
     rules: [
       // { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       // { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] }
+      {
+        test: /\.jsx?/,// 以js 或jsx 结尾，x可以省略
+        // use: [
+        //   {
+        //     loader: 'babel-loader',
+        //     // options: {      //----------------只要使用了babel-loader 就会自动执行.babelrc的文件。所以几下options的配置放到.babelrc（json格式）文件中配置也可以，
+        //     //   presets: [
+        //     //     'env', // 在解析低级语法
+        //     //     'stage-0',// 在解析高级语法
+        //     //     'react' // 先解析react
+        //     //   ]
+        //     // }
+        //   }
+        // ],
+        exclude: /node_modules/,// 排除那些文件，不用babel编译
+        include: /src/,// 包含哪些文件，需要用babel编译
+      },
       {
         test: /\.(png|jpg|gif)$/, use: [
           {
@@ -44,7 +62,25 @@ module.exports = {
     ]
   },
 
+  resolve: {
+    //别名---把一个长路径，赋值一个新的名字
+    alias: {
+      'bootstrap': path.resolve(__dirname, "node_modules/bootstrap/dist/css/bootstrap.css")
+    },
+    // 省略后缀名 第一个元素规定为" ",默认支持省略".js", ".json"，但是增加省略后缀名时就得在把这三个加上，不然会覆盖掉
+    extensions: [" ", ".js", ".json", ".css"],
+    // 第三方模块查找路径，
+    modules: ['node_modules', 'lib']
+  },
+
+
   plugins: [
+    // 拷贝静态文件 插件
+    new CopyWebpackPlugin([{
+      from: './src', // 文件源
+      to: 'public' // 目的文件，如果没有public 会自动创建
+    }]),
+
     // 使用这个插件注入一个全局名称,来区分是生产环境还是开发环境
     new webpack.DefinePlugin({
       _DEV_: isDev

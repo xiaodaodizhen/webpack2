@@ -77,3 +77,14 @@ npm install webpack webpack-cli -D   (开发用)
   - 方案： npm install file-loader url-loader -D   // 解决js 中的图片引用，打包后图片引用---看js文件备注
 
           npm install html-withimg-loader -D    // 解决html中的图片引用，打包后图片引用   打包前: <img src="./1.jpg">   打包后: src="images/9568043d528780847a30ba5d2d33948b.jpg"
+
+## webpack 中编译react \ js 文件
+
+- npm install babel-core babel-loader babel-preset-env babel-preset-stage-0 babel-preset-react -D
+
+## 拷贝静态文件
+
+- npm install copy-webpack-plugin -D
+
+## 
+- npm install bootstrap
